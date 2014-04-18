@@ -19,6 +19,14 @@ discovery:
   ec2:
     groups: $ES_CLUSTER_NAME
 EOF
+  if [ "$ES_BUCKET" != "" ] ; then
+  	cat >> /opt/elasticsearch/config/elasticsearch.yml << EOF
+gateway:
+  type: s3
+  s3:
+    bucket: $ES_BUCKET
+EOF
+  fi
 fi
 
 # Start elasticsearch
