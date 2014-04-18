@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Set elasticsearch cluster name
+cat >> /opt/elasticsearch/config/elasticsearch.yml << EOF
+cluster.name: $ES_CLUSTER_NAME
+EOF
+
+# Update logstash eleasticsearch config so it uses ec2 discovery
+if [ "$ES_DISCOVERY" == "ec2" ] ; then
+	cat >> /opt/elasticsearch/config/elasticsearch.yml << EOF
+network.publish_host: _ec2_
+
+cloud:
+  aws:
+    region: $ES_AWS_REGION
+
+discovery:
+  type: ec2
+  ec2:
+    groups: $ES_CLUSTER_NAME
+EOF
+fi
+
+# Start elasticsearch
+/opt/elasticsearch/bin/elasticsearch
