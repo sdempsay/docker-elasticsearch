@@ -1,4 +1,4 @@
-FROM stackbrew/ubuntu:saucy
+FROM stackbrew/ubuntu:trusty
 MAINTAINER Luis Arias <luis@balsamiq.com>
 
 RUN apt-get update && apt-get -y upgrade
