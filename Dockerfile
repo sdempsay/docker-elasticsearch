@@ -20,5 +20,10 @@ ENV ES_AWS_REGION us-east-1
 EXPOSE 9200 9300
 
 ADD run /opt/run
-RUN chmod +x /opt/run
+ADD es_rotate /opt/es_rotate
+RUN chmod +x /opt/run /opt/es_rotate
+
+ADD es.crontab /opt/es.crontab
+RUN crontab /opt/es.crontab
+
 CMD ./run
