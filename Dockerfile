@@ -21,7 +21,6 @@ EXPOSE 9200 9300
 
 ADD es_config /opt/es_config
 RUN chmod +x /opt/es_config
-RUN /opt/es_config
 
 ADD es_rotate /opt/es_rotate
 RUN chmod +x /opt/es_rotate
