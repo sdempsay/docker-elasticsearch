@@ -2,7 +2,7 @@ FROM stackbrew/ubuntu:trusty
 MAINTAINER Luis Arias <luis@balsamiq.com>
 
 RUN apt-get update && apt-get -y upgrade
-RUN apt-get -y install wget openjdk-7-jre-headless
+RUN apt-get -y install wget openjdk-7-jre-headless supervisor
 
 # Install elasticsearch
 
@@ -19,11 +19,15 @@ ENV ES_AWS_REGION us-east-1
 
 EXPOSE 9200 9300
 
-ADD run /opt/run
+ADD es_config /opt/es_config
+RUN chmod +x /opt/es_config
+RUN /opt/es_config
+
 ADD es_rotate /opt/es_rotate
-RUN chmod +x /opt/run /opt/es_rotate
+RUN chmod +x /opt/es_rotate
 
 ADD es.crontab /opt/es.crontab
 RUN crontab /opt/es.crontab
 
-CMD ./run
+ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+CMD ["/usr/bin/supervisord"]

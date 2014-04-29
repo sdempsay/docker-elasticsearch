@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Start cron (needed for log rotation)
-cron -f &
-
 # Set elasticsearch cluster name
 cat >> /opt/elasticsearch/config/elasticsearch.yml << EOF
 cluster.name: $ES_CLUSTER_NAME
@@ -31,6 +28,3 @@ gateway:
 EOF
   fi
 fi
-
-# Start elasticsearch
-/opt/elasticsearch/bin/elasticsearch
