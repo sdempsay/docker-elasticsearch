@@ -1,8 +1,10 @@
 #!/bin/bash
 
 # Set elasticsearch cluster name
+# Disable dynamic scripting as per http://www.elasticsearch.org/blog/scripting-security
 cat >> /opt/elasticsearch/config/elasticsearch.yml << EOF
 cluster.name: $ES_CLUSTER_NAME
+script.disable_dynamic: true
 EOF
 
 # Update logstash eleasticsearch config so it uses ec2 discovery
