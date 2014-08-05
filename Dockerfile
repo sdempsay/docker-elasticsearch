@@ -2,7 +2,7 @@ FROM stackbrew/ubuntu:trusty
 MAINTAINER Luis Arias <luis@balsamiq.com>
 
 RUN apt-get update && apt-get -y upgrade
-RUN apt-get -y install wget openjdk-7-jre-headless supervisor
+RUN apt-get -y install curl wget openjdk-7-jre-headless supervisor
 
 # Install elasticsearch
 
