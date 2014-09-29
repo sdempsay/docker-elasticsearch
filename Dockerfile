@@ -1,4 +1,4 @@
-FROM stackbrew/ubuntu:trusty
+FROM ubuntu:trusty
 MAINTAINER Luis Arias <luis@balsamiq.com>
 
 RUN apt-get update && apt-get -y upgrade
