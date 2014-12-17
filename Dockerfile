@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:utopic
 MAINTAINER Luis Arias <luis@balsamiq.com>
 
 RUN apt-get update && apt-get -y upgrade
