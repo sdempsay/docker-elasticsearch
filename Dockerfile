@@ -2,7 +2,7 @@ FROM ubuntu:utopic
 MAINTAINER Luis Arias <luis@balsamiq.com>
 
 RUN apt-get update && apt-get -y upgrade
-RUN apt-get -y install curl wget openjdk-8-jre-headless supervisor
+RUN apt-get -y install curl wget openjdk-7-jre-headless supervisor
 
 # Install elasticsearch
 
@@ -11,7 +11,6 @@ RUN wget --no-check-certificate -O- https://download.elasticsearch.org/elasticse
 RUN mv elasticsearch-1.4.4 elasticsearch
 
 # Install elasticsearch cloud aws plugin
-
 RUN cd elasticsearch && bin/plugin -install elasticsearch/elasticsearch-cloud-aws/2.4.1
 
 ENV ES_CLUSTER_NAME elasticsearch
@@ -19,14 +18,14 @@ ENV ES_AWS_REGION us-east-1
 
 EXPOSE 9200 9300
 
-ADD es_config /opt/es_config
-RUN chmod +x /opt/es_config
-
 ADD es_rotate /opt/es_rotate
 RUN chmod +x /opt/es_rotate
 
 ADD es.crontab /opt/es.crontab
 RUN crontab /opt/es.crontab
 
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-CMD ["/usr/bin/supervisord"]
+ADD supervisord.conf /etc/supervisor/conf.d/elasticsearch.conf
+
+ADD run ./run
+RUN chmod +x ./run
+CMD ./run

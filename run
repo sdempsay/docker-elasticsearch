@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Set elasticsearch cluster name
 # Disable dynamic scripting as per http://www.elasticsearch.org/blog/scripting-security
 cat >> /opt/elasticsearch/config/elasticsearch.yml << EOF
@@ -15,10 +14,20 @@ network.publish_host: _ec2_
 cloud:
   aws:
     region: $ES_AWS_REGION
+EOF
 
+if [[ "$ES_AWS_ACCESS_KEY" != "" && "$ES_AWS_SECRET_KEY" != "" ]] ; then
+cat >> /opt/elasticsearch/config/elasticsearch.yml << EOF
+    access_key: $ES_AWS_ACCESS_KEY
+    secret_key: $ES_AWS_SECRET_KEY
+EOF
+fi
+
+	cat >> /opt/elasticsearch/config/elasticsearch.yml << EOF
 discovery:
   type: ec2
   ec2:
     groups: $ES_CLUSTER_NAME
 EOF
 fi
+/usr/bin/supervisord -c /etc/supervisor/conf.d/elasticsearch.conf
