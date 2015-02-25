@@ -1,8 +1,9 @@
-FROM ubuntu:utopic
+FROM dockerfile/java:oracle-java8
 MAINTAINER Luis Arias <luis@balsamiq.com>
 
-RUN apt-get update && apt-get -y upgrade
-RUN apt-get -y install curl wget openjdk-7-jre-headless supervisor
+RUN \
+  apt-get update && \
+  apt-get -y upgrade && apt-get -y install curl wget supervisor
 
 # Install elasticsearch
 
