@@ -3,7 +3,7 @@ MAINTAINER Luis Arias <luis@balsamiq.com>
 
 RUN \
   apt-get update && \
-  apt-get -y upgrade && apt-get -y install curl wget supervisor
+  apt-get -y upgrade && apt-get -y install curl wget supervisor cron
 
 # Install elasticsearch
 
