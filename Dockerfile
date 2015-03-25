@@ -1,4 +1,4 @@
-FROM dockerfile/java:oracle-java8
+FROM java:8
 MAINTAINER Luis Arias <luis@balsamiq.com>
 
 RUN \
