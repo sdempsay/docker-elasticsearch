@@ -15,8 +15,7 @@ fi
 # Set up unicast discovery
 if [[ "$ES_UNICAST_IPS" != "" ]]; then
 cat >> /opt/elasticsearch/config/elasticsearch.yml << EOF
-network.publish_host: $ES_PUBLISH_HOST
-ddiscovery.zen.ping.unicast.hosts: [ $ES_UNICAST_IPS ]
+discovery.zen.ping.unicast.hosts: [ $ES_UNICAST_IPS ]
 EOF
 fi
 
