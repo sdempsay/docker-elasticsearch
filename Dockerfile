@@ -1,32 +1,31 @@
 FROM java:8
-MAINTAINER Luis Arias <luis@balsamiq.com>
+MAINTAINER Shawn Dempsay <shawn@dempsay.org>
+
 
 RUN \
+  DEBIAN_FRONTEND=noninteractive \
   apt-get update && \
-  apt-get -y upgrade && apt-get -y install curl wget supervisor cron
+  apt-get -y upgrade && apt-get -y install curl wget supervisor
+
+RUN useradd -r elasticsearch
 
 # Install elasticsearch
 
 WORKDIR /opt
-RUN wget --no-check-certificate -O- https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.4.tar.gz | tar xvfz -
-RUN mv elasticsearch-1.4.4 elasticsearch
+RUN wget --no-check-certificate -O- https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-2.1.1.tar.gz | tar xvfz -
+RUN mv elasticsearch-2.1.1 elasticsearch
+RUN mkdir -p /opt/elasticsearch/data
+RUN chown -R elasticsearch /opt/elasticsearch
 
-# Install elasticsearch cloud aws plugin
-RUN cd elasticsearch && bin/plugin -install elasticsearch/elasticsearch-cloud-aws/2.4.1
+# Install elastic HQ
+RUN cd elasticsearch && bin/plugin install royrusso/elasticsearch-HQ/2.0
 
 ENV ES_CLUSTER_NAME elasticsearch
-ENV ES_AWS_REGION us-east-1
+ENV ES_SCRIPTING false
 
 EXPOSE 9200 9300
+VOLUME /opt/elasticsearch/data
 
-ADD es_rotate /opt/es_rotate
-RUN chmod +x /opt/es_rotate
-
-ADD es.crontab /opt/es.crontab
-RUN crontab /opt/es.crontab
-
-ADD supervisord.conf /etc/supervisor/conf.d/elasticsearch.conf
-
-ADD run ./run
-RUN chmod +x ./run
-CMD ./run
+ADD startElasticsearch /opt
+RUN chmod +x /opt/startElasticsearch
+CMD /opt/startElasticsearch
